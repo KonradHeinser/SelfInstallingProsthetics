@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+    <SelfInstallingProsthetic>self installing {0}</SelfInstallingProsthetic>
+    <SelfInstallingProsthetic_DescriptionAddition>This version of the prosthetic will install itself instead of requiring a surgeon. Installation will attempt to purge existing organic material while retaining existing prosthetics. Removing the part will damage the self installing function, requiring it be installed through surgery in the future.</SelfInstallingProsthetic_DescriptionAddition>
+    <SIPUse>Use {0}</SIPUse>
+</LanguageData>
