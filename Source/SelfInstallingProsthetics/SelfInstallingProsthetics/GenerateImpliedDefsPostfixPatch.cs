@@ -19,7 +19,6 @@ namespace SelfInstallingProsthetics
 
         public static IEnumerable<ThingDef> ImpliedSIPs(bool hotReload = false)
         {
-            ModContentPack thisMod = LoadedModManager.RunningModsListForReading.Where(arg => arg.PackageId == "Alite.SelfInstallingProsthetics").First();
             foreach (HediffDef hediff in DefDatabase<HediffDef>.AllDefs.ToList())
             {
                 // Only include added parts
@@ -94,7 +93,6 @@ namespace SelfInstallingProsthetics
                 });
 
                 // Adds the more static information
-                thing.modContentPack = thisMod;
                 thing.pathCost = DefGenerator.StandardItemPathCost;
                 thing.drawGUIOverlay = true;
                 thing.category = ThingCategory.Item;
