@@ -62,7 +62,7 @@ namespace SelfInstallingProsthetics
                 thing.defName = defName;
 
                 // Copy stuff from the original item
-                thing.label = "SelfInstallingImplant".Translate(normalThing.label);
+                thing.label = "SelfInstallingProsthetic".Translate(normalThing.label);
                 thing.description = normalThing.description + "\n\n" + "SelfInstallingProsthetic_DescriptionAddition".Translate();
                 thing.drawerType = normalThing.drawerType;
                 thing.resourceReadoutPriority = normalThing.resourceReadoutPriority;
