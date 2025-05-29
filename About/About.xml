@@ -12,10 +12,22 @@
     <li>Ludeon.RimWorld.Ideology</li>
     <li>Ludeon.RimWorld.Biotech</li>
     <li>Ludeon.RimWorld.Anomaly</li>
+    <li>sarg.alphaimplants</li>
+    <li>lts.I</li>
+    <li>det.stonebornfaction</li>
   </loadAfter>
 
+	<modDependencies>
+		<li>
+			<packageId>brrainz.harmony</packageId>
+			<displayName>Harmony</displayName>
+			<steamWorkshopUrl>steam://url/CommunityFilePage/2009463077</steamWorkshopUrl>
+			<downloadUrl>https://github.com/pardeike/HarmonyRimWorld/releases/latest</downloadUrl>
+		</li>
+	</modDependencies>
+
   <description>
-This mod adds self installing variations of most prosthetics in the game. These prosthetics can only be found or purchased, but the first time they are activated they will install themselves on the pawn without a need for surgery or anesthesia, at which point they will exactly the same as their more standard counterparts. They can be removed with surgery, but the removal process damages this advanced function, forcing pawns to install it via surgery as normal in the future.
+This mod adds self installing variations of most prosthetics in the game. These prosthetics can only be found or purchased, but the first time they are added to a pawn, they install themselves on the pawn without relying on surgery or anesthesia, at which point they will exactly the same as their more standard counterparts. They can be removed with surgery, but the removal process damages this advanced function, forcing pawns to install it via surgery as normal in the future.
 
 Normally only prosthetics of ultratech or archotech level are generated, but this can be changed in the settings. 
 

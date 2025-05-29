@@ -7,11 +7,23 @@
         <exclusions> 
             <li>PegLeg</li>
         </exclusions>
+        <!--Similar to exclusions, but excludes every single hediff that has a defName starting with the string
+        If you use this be VERY careful about your prefixes. 
+        If adding your mod's hediffs to this, try to have the prefix end with an underscore to help
+        Ideally, the prefixes have more than a few letters to avoid accidentally catching implants from other mods, but sometimes that is not possible-->
+        <excludedPrefixes>
+            <li>AI_Animal</li> <!--Stops all Alpha Implant Animal parts from appearing-->
+        </excludedPrefixes>
         <psychic> <!--Hediffs that require some level of psychic sensitivity to install-->
 
         </psychic>
         <leveling> <!--Hediffs which don't set their max severity, but should be levelable anyway-->
 
         </leveling>
+        <!--If an entire recipe worker class should result in nothing being made, add it here
+        This only works for implants that don't rely on the hediff having a defaultInstallPart designated, and doesn't have much broad use-->
+        <excludedRecipeWorkers> 
+
+        </excludedRecipeWorkers>
     </SelfInstallingProsthetics.SIPExceptionsDef>
 </Defs>
