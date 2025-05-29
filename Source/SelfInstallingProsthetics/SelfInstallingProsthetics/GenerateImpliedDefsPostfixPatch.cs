@@ -57,6 +57,13 @@ namespace SelfInstallingProsthetics
                         continue;
                 }
 
+                // Find out what part this should be attached to, or just run away
+                BodyPartDef targetPart = hediff.defaultInstallPart ?? (DefDatabase<RecipeDef>.AllDefsListForReading.Where(arg =>
+                    arg.fixedIngredientFilter?.AllowedThingDefs?.Contains(normalThing) == true).First().appliedOnFixedBodyParts?.First());
+
+                if (targetPart == null)
+                    continue;
+
                 string defName = "SIP_" + normalThing.defName;
                 ThingDef thing = (hotReload ? (DefDatabase<ThingDef>.GetNamedSilentFail(defName) ?? new ThingDef()) : new ThingDef());
                 thing.defName = defName;
@@ -89,7 +96,7 @@ namespace SelfInstallingProsthetics
                 thing.comps.Add(new CompProperties_UseEffectInstallProsthetic
                 {
                     hediff = hediff,
-                    bodyPart = hediff.defaultInstallPart
+                    bodyPart = targetPart
                 });
 
                 // Adds the more static information
