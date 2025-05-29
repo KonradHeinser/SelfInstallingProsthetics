@@ -98,6 +98,7 @@ namespace SelfInstallingProsthetics
                     // Go with the first overall part since there isn't really anything else to try now
                     // If this is reached, something might have went horribly wrong
                     DoPartInstall(usedBy, parts.First());
+                    Log.Warning("Using panic part");
                 }
             }
         }
@@ -193,7 +194,7 @@ namespace SelfInstallingProsthetics
                     else
                         return true;
                 }
-                if (!CheckObstacles(parts, p))
+                if (CheckObstacles(parts, p))
                     return "SIPInTheWay".Translate();
             }
 
