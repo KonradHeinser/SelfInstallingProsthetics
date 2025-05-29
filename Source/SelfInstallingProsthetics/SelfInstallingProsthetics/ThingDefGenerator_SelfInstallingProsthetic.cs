@@ -25,7 +25,7 @@ namespace SelfInstallingProsthetics
                     continue;
 
                 // Make sure someone didn't manually exclude it
-                if (!SIPDefOf.SIPExceptions.Excluded(hediff))
+                if (SIPDefOf.SIPExceptions.Excluded(hediff))
                     continue;
 
                 ThingDef normalThing = hediff.spawnThingOnRemoved;
