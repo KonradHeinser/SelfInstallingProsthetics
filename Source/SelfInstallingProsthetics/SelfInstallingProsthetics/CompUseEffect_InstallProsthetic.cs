@@ -123,6 +123,7 @@ namespace SelfInstallingProsthetics
 
             Hediff newHediff = HediffMaker.MakeHediff(Props.hediff, usedBy, part);
             usedBy.health.RestorePart(part, newHediff);
+            usedBy.health.AddHediff(newHediff);
         }
 
         public override AcceptanceReport CanBeUsedBy(Pawn p)
