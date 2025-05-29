@@ -1,21 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using RimWorld;
 using Verse;
 
 namespace SelfInstallingProsthetics
 {
-    public class ThingDefGenerator_SelfInstallingProsthetic
+    public static class ThingDefGenerator_SelfInstallingProsthetic
     {
         public static IEnumerable<ThingDef> ImpliedThingDefs(bool hotReload = false)
         {
             ModContentPack thisMod = LoadedModManager.RunningModsListForReading.Where(arg => arg.PackageId == "Alite.SelfInstallingProsthetics").First();
             foreach (HediffDef hediff in DefDatabase<HediffDef>.AllDefs.ToList())
             {
-                // Make sure it is an implant that comees from an item
+                // Only include added parts
+                if (!typeof(Hediff_AddedPart).IsAssignableFrom(hediff.hediffClass))
+                    continue;
+
+                // Make sure it is an implant that comes from an item
                 if (!hediff.countsAsAddedPartOrImplant || hediff.spawnThingOnRemoved == null)
                     continue;
 
@@ -61,7 +62,7 @@ namespace SelfInstallingProsthetics
                 thing.graphicData = normalThing.graphicData;
                 thing.useHitPoints = normalThing.useHitPoints;
                 thing.statBases = normalThing.statBases;
-                thing.BaseMarketValue = normalThing.BaseMarketValue * 1.1f;
+                thing.BaseMarketValue = normalThing.BaseMarketValue * 1.5f;
                 thing.rotatable = normalThing.rotatable;
                 thing.stackLimit = normalThing.stackLimit;
                 thing.comps = normalThing.comps;

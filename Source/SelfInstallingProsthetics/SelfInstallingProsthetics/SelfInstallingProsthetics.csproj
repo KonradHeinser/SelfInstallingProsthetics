@@ -49,8 +49,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CompProperties_UseEffectInstallProsthetic.cs" />
+    <Compile Include="CompUseEffect_InstallProsthetic.cs" />
+    <Compile Include="HarmonyPatches.cs" />
     <Compile Include="SIPDefOf.cs" />
-    <Compile Include="SIPExclusionsDef.cs" />
+    <Compile Include="SIPExceptionsDef.cs" />
     <Compile Include="ThingDefGenerator_SelfInstallingProsthetic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

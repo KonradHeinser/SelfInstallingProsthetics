@@ -5,11 +5,11 @@ namespace SelfInstallingProsthetics
 {
     public class SIPExceptionsDef : Def
     {
-        public List<HediffDef> exclusions;
+        private List<HediffDef> exclusions;
 
-        public List<HediffDef> psychic;
+        private List<HediffDef> psychic;
 
-        public List<HediffDef> leveling;
+        private List<HediffDef> leveling;
 
         public bool Excluded(HediffDef hediff)
         {
@@ -27,8 +27,15 @@ namespace SelfInstallingProsthetics
 
         public bool Leveling(HediffDef hediff)
         {
+            // If the modder set a max severity, assume it's levelable
+            if (hediff.maxSeverity < float.MaxValue)
+                return true;
+
+            // If there aren't exclusions, assume it's not levelable
             if (leveling.NullOrEmpty())
                 return false;
+
+            // Otherwise, check the list
             return leveling.Contains(hediff);
         }
     }

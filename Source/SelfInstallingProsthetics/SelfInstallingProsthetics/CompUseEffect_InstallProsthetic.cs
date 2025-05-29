@@ -17,6 +17,7 @@ namespace SelfInstallingProsthetics
 
             if (!parts.NullOrEmpty())
             {
+                bool levels = SIPDefOf.SIPExceptions.Leveling(Props.hediff);
                 if (parts.Count == 1)
                 {
                     BodyPartRecord part = parts.First();
@@ -24,12 +25,8 @@ namespace SelfInstallingProsthetics
 
                     if (hediff == null)
                         DoPartInstall(usedBy, part);
-                    else if (hediff.Severity < hediff.def.maxSeverity &&
-                        (SIPDefOf.SIPExceptions.Leveling(hediff.def) || hediff.def.maxSeverity != float.MaxValue))
-                        if (hediff is Hediff_Level leveling)
-                            leveling.ChangeLevel(1);
-                        else
-                            hediff.Severity += 1;
+                    else if (hediff.Severity < hediff.def.maxSeverity && levels)
+                        LevelUp(hediff);
                 }
                 else
                 {
@@ -39,24 +36,32 @@ namespace SelfInstallingProsthetics
                         DoPartInstall(usedBy, parts.First(), true);
                         return;
                     }
-                    // Otherwise, start by regaining any lost parts
-                    foreach (BodyPartRecord part in parts)
-                        if (usedBy.health.hediffSet.PartIsMissing(part))
-                        {
-                            DoPartInstall(usedBy, part);
-                            return;
-                        }
+                    // Otherwise, start by regaining any lost parts if possible
+                    if (typeof(Hediff_AddedPart).IsAssignableFrom(Props.hediff.hediffClass))
+                        foreach (BodyPartRecord part in parts)
+                            if (usedBy.health.hediffSet.PartIsMissing(part))
+                            {
+                                DoPartInstall(usedBy, part);
+                                return;
+                            }
 
                     // Try to level up an existing hediff if possible
                     Hediff hediff = usedBy.health.hediffSet.GetFirstHediffOfDef(Props.hediff);
-                    if (hediff != null && hediff.Severity < hediff.def.maxSeverity && (SIPDefOf.SIPExceptions.Leveling(hediff.def) || hediff.def.maxSeverity != float.MaxValue))
-                    {
-                        if (hediff is Hediff_Level leveling)
-                            leveling.ChangeLevel(1);
+                    if (hediff != null && levels)
+                        if (hediff.Severity < hediff.def.maxSeverity)
+                        {
+                            LevelUp(hediff);
+                            return;
+                        }
                         else
-                            hediff.Severity += 1;
-                        return;
-                    }
+                            foreach (Hediff h in usedBy.health.hediffSet.hediffs.Where(arg => arg.def == Props.hediff))
+                            {
+                                if (h.Severity < h.def.maxSeverity)
+                                {
+                                    LevelUp(h);
+                                    return;
+                                }
+                            }
 
                     BodyPartRecord bestPart = null;
                     int lowestTech = (int)Props.hediff.spawnThingOnRemoved.techLevel;
@@ -64,7 +69,7 @@ namespace SelfInstallingProsthetics
                     // Start checking for existing implants to avoid
                     List<BodyPartRecord> tmpRecords = new List<BodyPartRecord>(parts);
                     foreach (Hediff h in usedBy.health.hediffSet.hediffs)
-                        if (tmpRecords.Contains(h.Part) && h is Hediff_Implant)
+                        if (tmpRecords.Contains(h.Part) && h is Hediff_AddedPart)
                         {
                             tmpRecords.Remove(h.Part);
                             if (h.def != Props.hediff)
@@ -98,11 +103,19 @@ namespace SelfInstallingProsthetics
             }
         }
 
+        private void LevelUp(Hediff hediff)
+        {
+            if (hediff is Hediff_Level leveling)
+                leveling.ChangeLevel(1);
+            else
+                hediff.Severity += 1;
+        }
+
         private void DoPartInstall(Pawn usedBy, BodyPartRecord part, bool skipCurrent = false)
         {
             if (!skipCurrent)
             {
-                ThingDef currentPart = usedBy.health.hediffSet.hediffs.Where(arg => arg.Part == part && arg is Hediff_Implant added).First().def.spawnThingOnRemoved;
+                ThingDef currentPart = usedBy.health.hediffSet.hediffs.Where(arg => arg.Part == part && arg is Hediff_AddedPart added).First().def.spawnThingOnRemoved;
                 if (currentPart != null)
                     GenSpawn.Spawn(currentPart, usedBy.PositionHeld, usedBy.MapHeld);
             }
@@ -113,9 +126,82 @@ namespace SelfInstallingProsthetics
 
         public override AcceptanceReport CanBeUsedBy(Pawn p)
         {
-            if (!base.CanBeUsedBy(p))
-                return false;
-            return true;
+            if (p.HasExtraHomeFaction() || !p.IsFreeColonist)
+                return "InstallImplantNotAllowedForNonColonists".Translate();
+
+            List<BodyPartRecord> parts = p.RaceProps.body.GetPartsWithDef(Props.bodyPart);
+            bool levels = SIPDefOf.SIPExceptions.Leveling(Props.hediff);
+            // Make sure they are a race that has a part that actually works
+            if (parts.NullOrEmpty())
+                return "InstallImplantNoBodyPart".Translate();
+
+            if (SIPDefOf.SIPExceptions.Psychic(Props.hediff) && p.GetStatValue(StatDefOf.PsychicSensitivity) <= 0)
+                return "InstallImplantPsychicallyDeaf".Translate();
+
+            Hediff hediff = p.health.hediffSet.GetFirstHediffOfDef(Props.hediff);
+            if (parts.Count == 1)
+            {
+                BodyPartRecord part = parts.First();
+                if (hediff != null)
+                {
+                    if (!levels)
+                        return "InstallImplantAlreadyInstalled".Translate();
+                    else if (hediff.Severity == hediff.def.maxSeverity)
+                        return "InstallImplantAlreadyMaxLevel".Translate();
+                }
+                else
+                {
+                    int techLevel = (int)Props.hediff.spawnThingOnRemoved.techLevel;
+                    foreach (Hediff h in p.health.hediffSet.hediffs)
+                        if (h.Part == part && h is Hediff_AddedPart)
+                        {
+                            int level = h.def.spawnThingOnRemoved != null ? (int)h.def.spawnThingOnRemoved.techLevel : 0;
+                            if (level >= techLevel)
+                                return "SIPImplantInTheWay".Translate(h.Label);
+                        }
+                }
+            }
+            else
+            {
+                if (hediff != null)
+                {
+                    if (!levels || hediff.Severity == hediff.def.maxSeverity)
+                    {
+                        List<BodyPartRecord> tmpRecords = new List<BodyPartRecord>(parts);
+                        foreach (Hediff h in p.health.hediffSet.hediffs.Where(arg => arg.def == hediff.def))
+                            if (tmpRecords.Contains(hediff.Part))
+                            {
+                                tmpRecords.Remove(hediff.Part);
+                                
+                                // If none of the parts allow for more installations, that's a no
+                                if (tmpRecords.NullOrEmpty())
+                                    if (levels)
+                                        return "InstallImplantAlreadyMaxLevel".Translate();
+                                    else
+                                        return "InstallImplantAlreadyInstalled".Translate();
+                            }
+                    }
+                }
+                else
+                {
+                    List<BodyPartRecord> tmpRecords = new List<BodyPartRecord>(parts);
+                    int techLevel = (int)Props.hediff.spawnThingOnRemoved.techLevel;
+                    foreach (Hediff h in p.health.hediffSet.hediffs)
+                        if (tmpRecords.Contains(h.Part) && h is Hediff_AddedPart)
+                        {
+                            int level = h.def.spawnThingOnRemoved != null ? (int)h.def.spawnThingOnRemoved.techLevel : 0;
+                            if (level >= techLevel)
+                                tmpRecords.Remove(h.Part);
+                            if (tmpRecords.NullOrEmpty())
+                                break;
+                        }
+
+                    if (tmpRecords.NullOrEmpty())
+                        return "SIPInTheWay".Translate();
+                }
+            }
+
+            return base.CanBeUsedBy(p);
         }
     }
 }

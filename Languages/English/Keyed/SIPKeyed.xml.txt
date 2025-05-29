@@ -3,4 +3,6 @@
     <SelfInstallingProsthetic>self installing {0}</SelfInstallingProsthetic>
     <SelfInstallingProsthetic_DescriptionAddition>This version of the prosthetic will install itself instead of requiring a surgeon. Installation will attempt to purge existing organic material while retaining existing prosthetics. Removing the part will damage the self installing function, requiring it be installed through surgery in the future.</SelfInstallingProsthetic_DescriptionAddition>
     <SIPUse>Use {0}</SIPUse>
+    <SIPImplantInTheWay>not allowed due to {0}</SIPImplantInTheWay>
+    <SIPInTheWay>not allowed due to existing parts</SIPInTheWay>
 </LanguageData>
