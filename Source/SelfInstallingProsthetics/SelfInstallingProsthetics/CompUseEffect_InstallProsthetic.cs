@@ -115,9 +115,10 @@ namespace SelfInstallingProsthetics
         {
             if (!skipCurrent)
             {
-                ThingDef currentPart = usedBy.health.hediffSet.hediffs.Where(arg => arg.Part == part && arg is Hediff_AddedPart added).First().def.spawnThingOnRemoved;
-                if (currentPart != null)
-                    GenSpawn.Spawn(currentPart, usedBy.PositionHeld, usedBy.MapHeld);
+                var currentPartHediffs = usedBy.health.hediffSet.hediffs.Where(arg => arg.Part == part && arg is Hediff_AddedPart && arg.def.spawnThingOnRemoved != null);
+                if (!currentPartHediffs.EnumerableNullOrEmpty())
+                    foreach (var h in  currentPartHediffs)
+                        GenSpawn.Spawn(h.def.spawnThingOnRemoved, usedBy.PositionHeld, usedBy.MapHeld);
             }
 
             Hediff newHediff = HediffMaker.MakeHediff(Props.hediff, usedBy, part);
