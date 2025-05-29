@@ -27,7 +27,9 @@
 	</modDependencies>
 
   <description>
-This mod adds self installing variations of most prosthetics in the game. These prosthetics can only be found or purchased, but the first time they are added to a pawn, they install themselves on the pawn without relying on surgery or anesthesia, at which point they will exactly the same as their more standard counterparts. They can be removed with surgery, but the removal process damages this advanced function, forcing pawns to install it via surgery as normal in the future.
+This mod adds self installing variations of most prosthetics in the game. These prosthetics can only be found or purchased, but the first time they are added to a pawn, they can be activated to install themselves on the pawn without relying on surgery or anesthesia, at which point they turn into their more mundane counterparts. If removed via surgery, the only way to add them onto a pawn again is through the normal surgery actions.
+
+When activated, assuming there are multiple options, they will pick for themselves which part to go to. Their priority in order is: replace missing parts > level up existing versions (if applicable) > go to a part without any prosthetics > take off an existing implant that is of a lower tech level > panic because it should be possible to activate them at this point. When replacing a part (i.e. a bionic leg with an archotech leg), the old part is left on the ground under or next to the pawn. In the event that the parts are the same tech level (i.e. detoxifier lung and bionic lung), replacement is not possible without manually removing the old part through surgery. For parts wouldn't normally be uninstallable (i.e. flesh tentacle from Anomaly), they must also be removed through other means first.
 
 Normally only prosthetics of ultratech or archotech level are generated, but this can be changed in the settings. Wherever applicable, this mod will try to create Self Installing variants of implants from other mods in your list. If you have a mod and don't want some of your prosthetics getting variants, there is a special def in this mod that is handling all of the exceptions, so you can exclude yours with basic xml patch(es).
 
@@ -37,6 +39,14 @@ Normally only prosthetics of ultratech or archotech level are generated, but thi
 
 [url=https://github.com/KonradHeinser/][img]https://i.imgur.com/kTkpTOE.png[/img][/url]
 [url=https://ko-fi.com/alite56114][img]https://i.imgur.com/Utx6OIH.png[/img][/url]
+
+This part is for the more technical details, usually only of interest to modders wondering if/how their implants popped up with these variations
+
+When checking for whether or not a part can be made, these are the conditions that must be met outside of the obvious exclusion causers:
+- Uses Hediff_AddedPart or a child thereof
+- Has countsAsAddedPartOrImplant set to True and has a spawnThingOnRemoved set
+- The spawnThingOnRemoved is a ThingWithComps that doesn't already have a usable
+- Has a defaultInstallPart or an install recipe with appliedOnFixedBodyParts (will always use the first listed)
   </description>
 </ModMetaData>
 
