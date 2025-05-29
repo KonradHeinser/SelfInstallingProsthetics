@@ -6,6 +6,8 @@
         Usually caused by spawnThingOnRemoved having something in it, but any type can be added here-->
         <exclusions> 
             <li>PegLeg</li>
+            <li>WoodenHand</li>
+            <li>WoodenFoot</li>
         </exclusions>
         <!--Similar to exclusions, but excludes every single hediff that has a defName starting with the string
         If you use this be VERY careful about your prefixes. 
