@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+    <SelfInstallingProsthetics.SIPExceptionsDef>
+        <defName>SIPExceptions</defName>
+        <!--Hediffs that normally generate a SIP variant, but shouldn't. 
+        Usually caused by spawnThingOnRemoved having something in it, but any type can be added here-->
+        <exclusions> 
+            <li>PegLeg</li>
+        </exclusions>
+        <psychic> <!--Hediffs that require some level of psychic sensitivity to install-->
+
+        </psychic>
+        <leveling> <!--Hediffs which don't set their max severity, but should be levelable anyway-->
+
+        </leveling>
+    </SelfInstallingProsthetics.SIPExceptionsDef>
+</Defs>
