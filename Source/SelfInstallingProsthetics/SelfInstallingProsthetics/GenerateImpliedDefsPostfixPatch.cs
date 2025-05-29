@@ -104,6 +104,7 @@ namespace SelfInstallingProsthetics
                     hediff = hediff,
                     bodyPart = targetPart
                 });
+                thing.comps.Add(new CompProperties_UseEffectDestroySelf());
 
                 // Adds the more static information
                 thing.pathCost = DefGenerator.StandardItemPathCost;
