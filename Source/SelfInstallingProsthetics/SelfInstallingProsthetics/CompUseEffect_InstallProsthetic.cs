@@ -91,7 +91,10 @@ namespace SelfInstallingProsthetics
 
                     // Otherwise go with the part with a lower tech level
                     if (bestPart != null)
+                    {
                         DoPartInstall(usedBy, bestPart);
+                        return;
+                    }
 
                     // Go with the first overall part since there isn't really anything else to try now
                     // If this is reached, something might have went horribly wrong
