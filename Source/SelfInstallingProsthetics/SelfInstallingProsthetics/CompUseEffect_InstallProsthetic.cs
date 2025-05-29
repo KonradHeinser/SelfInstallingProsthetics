@@ -190,27 +190,31 @@ namespace SelfInstallingProsthetics
                             }
                         }
                     }
+                    else
+                        return true;
                 }
-                else
-                {
-                    List<BodyPartRecord> tmpRecords = new List<BodyPartRecord>(parts);
-                    int techLevel = (int)Props.hediff.spawnThingOnRemoved.techLevel;
-                    foreach (Hediff h in p.health.hediffSet.hediffs)
-                        if (tmpRecords.Contains(h.Part) && h is Hediff_AddedPart)
-                        {
-                            int level = h.def.spawnThingOnRemoved != null ? (int)h.def.spawnThingOnRemoved.techLevel : 0;
-                            if (level >= techLevel)
-                                tmpRecords.Remove(h.Part);
-                            if (tmpRecords.NullOrEmpty())
-                                break;
-                        }
-
-                    if (tmpRecords.NullOrEmpty())
-                        return "SIPInTheWay".Translate();
-                }
+                if (!CheckObstacles(parts, p))
+                    return "SIPInTheWay".Translate();
             }
 
             return base.CanBeUsedBy(p);
+        }
+
+        private bool CheckObstacles(List<BodyPartRecord> parts, Pawn p)
+        {
+            List<BodyPartRecord> tmpRecords = new List<BodyPartRecord>(parts);
+            int techLevel = (int)Props.hediff.spawnThingOnRemoved.techLevel;
+            foreach (Hediff h in p.health.hediffSet.hediffs)
+                if (tmpRecords.Contains(h.Part) && h is Hediff_AddedPart)
+                {
+                    int level = h.def.spawnThingOnRemoved != null ? (int)h.def.spawnThingOnRemoved.techLevel : 0;
+                    if (level >= techLevel)
+                        tmpRecords.Remove(h.Part);
+                    if (tmpRecords.NullOrEmpty())
+                        break;
+                }
+
+            return !tmpRecords.NullOrEmpty();
         }
     }
 }
