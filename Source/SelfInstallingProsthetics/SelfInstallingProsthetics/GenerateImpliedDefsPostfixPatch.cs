@@ -87,12 +87,10 @@ namespace SelfInstallingProsthetics
                 thing.BaseMarketValue = normalThing.BaseMarketValue * 1.5f;
                 thing.rotatable = normalThing.rotatable;
                 thing.stackLimit = normalThing.stackLimit;
-                thing.comps = normalThing.comps;
+                thing.comps = new List<CompProperties>(normalThing.comps);
                 thing.thingSetMakerTags = normalThing.thingSetMakerTags;
 
                 // Add comps
-                if (thing.comps == null)
-                    thing.comps = new List<CompProperties>();
                 thing.comps.Add(new CompProperties_Usable
                 {
                     useJob = SIPDefOf.UseItem,
