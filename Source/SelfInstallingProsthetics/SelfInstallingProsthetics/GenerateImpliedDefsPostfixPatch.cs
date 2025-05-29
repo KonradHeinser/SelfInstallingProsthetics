@@ -58,8 +58,15 @@ namespace SelfInstallingProsthetics
                 }
 
                 // Find out what part this should be attached to, or just run away
-                BodyPartDef targetPart = hediff.defaultInstallPart ?? (DefDatabase<RecipeDef>.AllDefsListForReading.Where(arg =>
-                    arg.fixedIngredientFilter?.AllowedThingDefs?.Contains(normalThing) == true).First().appliedOnFixedBodyParts?.First());
+                BodyPartDef targetPart = hediff.defaultInstallPart;
+
+                if (targetPart == null)
+                {
+                    var recipes = DefDatabase<RecipeDef>.AllDefsListForReading.Where(arg =>
+                    arg.fixedIngredientFilter?.AllowedThingDefs?.Contains(normalThing) == true);
+                    if (!recipes.EnumerableNullOrEmpty() && !recipes.First().appliedOnFixedBodyParts.NullOrEmpty())
+                        targetPart = recipes.First().appliedOnFixedBodyParts.First();
+                }
 
                 if (targetPart == null)
                     continue;
