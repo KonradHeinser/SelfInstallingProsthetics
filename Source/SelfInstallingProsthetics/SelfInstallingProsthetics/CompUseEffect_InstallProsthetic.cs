@@ -208,14 +208,14 @@ namespace SelfInstallingProsthetics
             foreach (Hediff h in p.health.hediffSet.hediffs)
                 if (tmpRecords.Contains(h.Part) && h is Hediff_AddedPart)
                 {
-                    int level = h.def.spawnThingOnRemoved != null ? (int)h.def.spawnThingOnRemoved.techLevel : 0;
+                    int level = h.def.spawnThingOnRemoved != null ? (int)h.def.spawnThingOnRemoved.techLevel : 99;
                     if (level >= techLevel || h.def == Props.hediff)
                         tmpRecords.Remove(h.Part);
                     if (tmpRecords.NullOrEmpty())
                         break;
                 }
 
-            return !tmpRecords.NullOrEmpty();
+            return tmpRecords.NullOrEmpty();
         }
     }
 }
