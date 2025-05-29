@@ -24,7 +24,7 @@ namespace SelfInstallingProsthetics
                     continue;
 
                 // Make sure someone didn't manually exclude it
-                if (!SIPDefOf.SIPExclusions.exclusions.NullOrEmpty() && SIPDefOf.SIPExclusions.exclusions.Contains(hediff))
+                if (!SIPDefOf.SIPExceptions.Excluded(hediff))
                     continue;
 
                 ThingDef normalThing = hediff.spawnThingOnRemoved;
@@ -76,6 +76,11 @@ namespace SelfInstallingProsthetics
                     useLabel = "SIPUse".Translate(thing.label),
                     showUseGizmo = true
                 });
+                thing.comps.Add(new CompProperties_UseEffectInstallProsthetic
+                {
+                    hediff = hediff,
+                    bodyPart = hediff.defaultInstallPart
+                });
 
                 // Adds the more static information
                 thing.modContentPack = thisMod;
@@ -106,15 +111,3 @@ namespace SelfInstallingProsthetics
 
 // Make settings to allow for setting the tech limits of generation, default archo
 
-// Will need something similar to below in the install comp to remove any old parts that may exist
-
-/*
-  if (hediff != null)
-		{
-			if (hediff.def.spawnThingOnRemoved != null)
-			{
-				GenSpawn.Spawn(hediff.def.spawnThingOnRemoved, billDoer.Position, billDoer.Map);
-			}
-			pawn.health.RemoveHediff(hediff);
-		}
-*/

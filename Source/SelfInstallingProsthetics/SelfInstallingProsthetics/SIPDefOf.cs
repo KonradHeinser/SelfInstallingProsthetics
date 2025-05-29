@@ -6,7 +6,7 @@ namespace SelfInstallingProsthetics
     [DefOf]
     public static class SIPDefOf
     {
-        public static SIPExclusionsDef SIPExclusions;
+        public static SIPExceptionsDef SIPExceptions;
 
         public static JobDef UseItem;
     }
