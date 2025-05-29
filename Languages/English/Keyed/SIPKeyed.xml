@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
+    <SIPMainLabel>Self Installing Prosthetics</SIPMainLabel>
     <SelfInstallingProsthetic>self installing {0}</SelfInstallingProsthetic>
     <SelfInstallingProsthetic_DescriptionAddition>This version of the prosthetic will install itself instead of requiring a surgeon. Installation will attempt to purge existing organic material while retaining existing prosthetics. Removing the part will damage the self installing function, requiring it be installed through surgery in the future.</SelfInstallingProsthetic_DescriptionAddition>
     <SIPUse>Use {0}</SIPUse>
     <SIPImplantInTheWay>not allowed due to {0}</SIPImplantInTheWay>
     <SIPInTheWay>not allowed due to existing parts</SIPInTheWay>
+    <SIPSetMinTechLevel>Set minimum tech level (requires restart)</SIPSetMinTechLevel>
+    <SIPTechLevel>If you change the tech level mid-save, especially through increasing it, there may be unexpected results and errors.\n\nThis sets the minimum tech level a prosthetic must be at for this mod to even consider generating a self installing version of it. The tech level of the prosthetic is determined by the related it associated with it (i.e. archotech arm on the health tab references the archotech arm item).\n\nKeep in mind that if you still do not see the self installing version, it may have been excluded for other reasons, like not having a related item in the hediff, being an implant instead of an added part, or being manually excluded by a mod author.</SIPTechLevel>
 </LanguageData>

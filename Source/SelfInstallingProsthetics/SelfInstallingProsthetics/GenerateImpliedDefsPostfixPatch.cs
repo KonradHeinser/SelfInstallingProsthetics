@@ -30,7 +30,7 @@ namespace SelfInstallingProsthetics
                     continue;
 
                 // Make sure it comes from an item that has sufficient techlevel
-                if ((int)hediff.spawnThingOnRemoved.techLevel < 6)
+                if (hediff.spawnThingOnRemoved.techLevel < SIP_Settings.techLevel)
                     continue;
 
                 // Make sure someone didn't manually exclude it
