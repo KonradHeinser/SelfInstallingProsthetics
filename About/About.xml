@@ -29,7 +29,7 @@
   <description>
 This mod adds self installing variations of most prosthetics in the game. These prosthetics can only be found or purchased, but the first time they are added to a pawn, they install themselves on the pawn without relying on surgery or anesthesia, at which point they will exactly the same as their more standard counterparts. They can be removed with surgery, but the removal process damages this advanced function, forcing pawns to install it via surgery as normal in the future.
 
-Normally only prosthetics of ultratech or archotech level are generated, but this can be changed in the settings. 
+Normally only prosthetics of ultratech or archotech level are generated, but this can be changed in the settings. Wherever applicable, this mod will try to create Self Installing variants of implants from other mods in your list. If you have a mod and don't want some of your prosthetics getting variants, there is a special def in this mod that is handling all of the exceptions, so you can exclude yours with basic xml patch(es).
 
 [url=https://discord.gg/fYP8qkcNDh]Discord link[/url] for those who want an easier way to ask questions, make requests, or just chat. I'll also be posting new releases there.
 
