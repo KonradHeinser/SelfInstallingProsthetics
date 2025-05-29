@@ -63,7 +63,7 @@ namespace SelfInstallingProsthetics
                 if (targetPart == null)
                 {
                     var recipes = DefDatabase<RecipeDef>.AllDefsListForReading.Where(arg =>
-                    arg.fixedIngredientFilter?.AllowedThingDefs?.Contains(normalThing) == true);
+                    arg.ingredients.Where(arg2 => arg2.IsFixedIngredient && arg2.FixedIngredient == normalThing).Any());
                     if (!recipes.EnumerableNullOrEmpty() && !recipes.First().appliedOnFixedBodyParts.NullOrEmpty())
                         targetPart = recipes.First().appliedOnFixedBodyParts.First();
                 }
