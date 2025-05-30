@@ -44,7 +44,7 @@ namespace SelfInstallingProsthetics
         public bool InvalidRecipe(RecipeDef recipe)
         {
             if (recipe.appliedOnFixedBodyParts.NullOrEmpty())
-                return false;
+                return true;
             if (excludedRecipeWorkers.NullOrEmpty())
                 return false;
             return excludedRecipeWorkers.Contains(recipe.workerClass.Namespace + "." + recipe.workerClass.Name);
