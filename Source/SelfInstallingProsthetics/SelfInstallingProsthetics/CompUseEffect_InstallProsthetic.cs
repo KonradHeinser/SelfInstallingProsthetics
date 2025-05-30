@@ -18,7 +18,7 @@ namespace SelfInstallingProsthetics
                 bool levels = SIPDefOf.SIPExceptions.Leveling(Props.hediff);
                 if (parts.Count == 1)
                 {
-                    BodyPartRecord part = parts.First();
+                    BodyPartRecord part = parts.FirstOrDefault();
                     Hediff hediff = usedBy.health.hediffSet.GetFirstHediffOfDef(Props.hediff);
 
                     if (hediff == null)
@@ -31,7 +31,7 @@ namespace SelfInstallingProsthetics
                     // If this pawn happens to not have any hediffs, just do a generic install
                     if (usedBy.health.hediffSet.hediffs.NullOrEmpty())
                     {
-                        DoPartInstall(usedBy, parts.First(), true);
+                        DoPartInstall(usedBy, parts.FirstOrDefault(), true);
                         return;
                     }
                     // Otherwise, start by regaining any lost parts if possible
@@ -85,7 +85,7 @@ namespace SelfInstallingProsthetics
                     // If there's a part with no implants at all, go with that one
                     if (!tmpRecords.NullOrEmpty())
                     {
-                        DoPartInstall(usedBy, tmpRecords.First());
+                        DoPartInstall(usedBy, tmpRecords.FirstOrDefault());
                         return;
                     }
 
@@ -98,7 +98,7 @@ namespace SelfInstallingProsthetics
 
                     // Go with the first overall part since there isn't really anything else to try now
                     // If this is reached, something might have went horribly wrong
-                    DoPartInstall(usedBy, parts.First());
+                    DoPartInstall(usedBy, parts.FirstOrDefault());
                     Log.Warning("Using panic part");
                 }
             }
@@ -146,7 +146,7 @@ namespace SelfInstallingProsthetics
 
             if (parts.Count == 1)
             {
-                BodyPartRecord part = parts.First();
+                BodyPartRecord part = parts.FirstOrDefault();
                 if (hediff != null)
                 {
                     if (!levels)

@@ -64,7 +64,14 @@ namespace SelfInstallingProsthetics
                 {
                     var recipes = DefDatabase<RecipeDef>.AllDefsListForReading.Where(arg => arg.addsHediff == hediff && !SIPDefOf.SIPExceptions.InvalidRecipe(arg));
                     if (!recipes.EnumerableNullOrEmpty())
-                        targetPart = recipes.First().appliedOnFixedBodyParts.First();
+                    {
+                        Log.Message("A");
+                        var recipe = recipes.FirstOrDefault();
+                        Log.Message(recipe.label);
+                        targetPart = recipe.appliedOnFixedBodyParts.FirstOrDefault();
+                        Log.Message(targetPart.label);
+                        //targetPart = recipes.FirstOrDefault().appliedOnFixedBodyParts.FirstOrDefault();
+                    }
                 }
 
                 if (targetPart == null)
