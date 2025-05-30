@@ -11,6 +11,8 @@ namespace SelfInstallingProsthetics
 
         private List<HediffDef> leveling;
 
+        private List<string> excludedRecipeWorkers;
+
         public bool Excluded(HediffDef hediff)
         {
             if (exclusions.NullOrEmpty())
@@ -37,6 +39,17 @@ namespace SelfInstallingProsthetics
 
             // Otherwise, check the list
             return leveling.Contains(hediff);
+        }
+
+        public bool InvalidRecipe(RecipeDef recipe)
+        {
+            if (recipe.appliedOnFixedBodyParts.NullOrEmpty())
+                return false;
+            if (excludedRecipeWorkers.NullOrEmpty())
+                return false;
+            Log.Message(recipe.workerClass.Name);
+            Log.Message(recipe.workerClass.Namespace + "." + recipe.workerClass.Name);
+            return excludedRecipeWorkers.Contains(recipe.workerClass.Name);
         }
     }
 }
