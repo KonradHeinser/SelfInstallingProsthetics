@@ -47,9 +47,7 @@ namespace SelfInstallingProsthetics
                 return false;
             if (excludedRecipeWorkers.NullOrEmpty())
                 return false;
-            Log.Message(recipe.workerClass.Name);
-            Log.Message(recipe.workerClass.Namespace + "." + recipe.workerClass.Name);
-            return excludedRecipeWorkers.Contains(recipe.workerClass.Name);
+            return excludedRecipeWorkers.Contains(recipe.workerClass.Namespace + "." + recipe.workerClass.Name);
         }
     }
 }
