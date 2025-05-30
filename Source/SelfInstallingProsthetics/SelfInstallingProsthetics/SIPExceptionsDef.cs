@@ -7,6 +7,8 @@ namespace SelfInstallingProsthetics
     {
         private List<HediffDef> exclusions;
 
+        private List<string> excludedPrefixes;
+
         private List<HediffDef> psychic;
 
         private List<HediffDef> leveling;
@@ -15,8 +17,13 @@ namespace SelfInstallingProsthetics
 
         public bool Excluded(HediffDef hediff)
         {
-            if (exclusions.NullOrEmpty())
+            if (exclusions.NullOrEmpty() && excludedPrefixes.NullOrEmpty())
                 return false;
+            if (!excludedPrefixes.NullOrEmpty())
+                foreach (string prefix in excludedPrefixes)
+                    if (hediff.defName.StartsWith(prefix))
+                        return true;
+
             return exclusions.Contains(hediff);
         }
 
