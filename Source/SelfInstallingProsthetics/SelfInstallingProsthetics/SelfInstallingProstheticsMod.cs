@@ -77,7 +77,8 @@ namespace SelfInstallingProsthetics
             Widgets.DrawBoxSolid(scrollContainer, new ColorInt(37, 37, 37).ToColor);
             var frameRect = innerContainer.ContractedBy(5);
             frameRect.y += 15f;
-            var contentRect = frameRect.ContractedBy(5);
+            frameRect.height -= 15f;
+            var contentRect = frameRect.ContractedBy(10);
 
             optionsMenu.Begin(contentRect.AtZero());
 
