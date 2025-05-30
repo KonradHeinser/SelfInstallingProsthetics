@@ -80,7 +80,7 @@ namespace SelfInstallingProsthetics
             frameRect.height -= 15f;
             var contentRect = frameRect.ContractedBy(10);
 
-            optionsMenu.Begin(contentRect.AtZero());
+            optionsMenu.Begin(contentRect);
 
             if (optionsMenu.ButtonTextLabeledPct("SIPSetMinTechLevel".Translate(), TechLevelUtility.ToStringHuman(techLevel), 0.65f, tooltip: "SIPTechLevel".Translate()))
                 Find.WindowStack.Add(new FloatMenu(TechLevelOptions));
