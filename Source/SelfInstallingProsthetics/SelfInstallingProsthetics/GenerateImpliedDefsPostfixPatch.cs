@@ -89,6 +89,8 @@ namespace SelfInstallingProsthetics
                 thing.stackLimit = normalThing.stackLimit;
                 thing.comps = new List<CompProperties>(normalThing.comps);
                 thing.thingSetMakerTags = normalThing.thingSetMakerTags;
+                thing.tradeTags = normalThing.tradeTags;
+                thing.tradeability = normalThing.tradeability;
 
                 // Add comps
                 thing.comps.Add(new CompProperties_Usable
