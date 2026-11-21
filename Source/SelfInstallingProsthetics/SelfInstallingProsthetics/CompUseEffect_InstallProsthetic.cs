@@ -104,7 +104,7 @@ namespace SelfInstallingProsthetics
             }
         }
 
-        private void LevelUp(Hediff hediff)
+        private static void LevelUp(Hediff hediff)
         {
             if (hediff is Hediff_Level leveling)
                 leveling.ChangeLevel(1);
@@ -129,7 +129,6 @@ namespace SelfInstallingProsthetics
 
         public override AcceptanceReport CanBeUsedBy(Pawn p)
         {
-
             if (p.HasExtraHomeFaction() || !p.IsFreeColonist)
                 return "InstallImplantNotAllowedForNonColonists".Translate();
 
@@ -146,55 +145,45 @@ namespace SelfInstallingProsthetics
 
             if (parts.Count == 1)
             {
-                BodyPartRecord part = parts.FirstOrDefault();
                 if (hediff != null)
                 {
                     if (!levels)
                         return "InstallImplantAlreadyInstalled".Translate();
-                    else if (hediff.Severity == hediff.def.maxSeverity)
+                    if (hediff.Severity == hediff.def.maxSeverity)
                         return "InstallImplantAlreadyMaxLevel".Translate();
                 }
                 else
                 {
+                    BodyPartRecord part = parts.FirstOrDefault();
                     int techLevel = (int)Props.hediff.spawnThingOnRemoved.techLevel;
                     foreach (Hediff h in p.health.hediffSet.hediffs)
-                    {
                         if (h.Part == part && h is Hediff_AddedPart)
                         {
                             int level = h.def.spawnThingOnRemoved != null ? (int)h.def.spawnThingOnRemoved.techLevel : 0;
                             if (level >= techLevel)
                                 return "SIPImplantInTheWay".Translate(h.Label);
                         }
-                    }
                 }
             }
             else
             {
                 if (hediff != null)
-                {
                     if (!levels || hediff.Severity == hediff.def.maxSeverity)
                     {
                         List<BodyPartRecord> tmpRecords = new List<BodyPartRecord>(parts);
-                        foreach (Hediff h in p.health.hediffSet.hediffs.Where(arg => arg.def == Props.hediff))
+                        foreach (Hediff h in p.health.hediffSet.hediffs.Where(arg => arg.def == Props.hediff && tmpRecords.Contains(arg.Part)))
                         {
-                            if (tmpRecords.Contains(h.Part))
-                            {
-                                if (levels && h.Severity < h.def.maxSeverity)
-                                    return true;
-                                tmpRecords.Remove(h.Part);
+                            if (levels && h.Severity < h.def.maxSeverity)
+                                return true;
+                            tmpRecords.Remove(h.Part);
 
-                                // If none of the parts allow for more installations, that's a no
-                                if (tmpRecords.NullOrEmpty())
-                                    if (levels)
-                                        return "InstallImplantAlreadyMaxLevel".Translate();
-                                    else
-                                        return "InstallImplantAlreadyInstalled".Translate();
-                            }
+                            // If none of the parts allow for more installations, that's a no
+                            if (tmpRecords.NullOrEmpty()) 
+                                return levels ? "InstallImplantAlreadyMaxLevel".Translate() : "InstallImplantAlreadyInstalled".Translate();
                         }
                     }
                     else
                         return true;
-                }
                 if (CheckObstacles(parts, p))
                     return "SIPInTheWay".Translate();
             }

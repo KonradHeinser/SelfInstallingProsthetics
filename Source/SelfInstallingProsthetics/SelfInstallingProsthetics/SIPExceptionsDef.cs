@@ -5,15 +5,15 @@ namespace SelfInstallingProsthetics
 {
     public class SIPExceptionsDef : Def
     {
-        private List<HediffDef> exclusions;
+        public List<HediffDef> exclusions;
 
-        private List<string> excludedPrefixes;
+        public List<string> excludedPrefixes;
 
-        private List<HediffDef> psychic;
+        public List<HediffDef> psychic;
 
-        private List<HediffDef> leveling;
+        public List<HediffDef> leveling;
 
-        private List<string> excludedRecipeWorkers;
+        public List<string> excludedRecipeWorkers;
 
         public bool Excluded(HediffDef hediff)
         {
@@ -29,9 +29,7 @@ namespace SelfInstallingProsthetics
 
         public bool Psychic(HediffDef hediff)
         {
-            if (psychic.NullOrEmpty())
-                return false;
-            return psychic.Contains(hediff);
+            return !psychic.NullOrEmpty() && psychic.Contains(hediff);
         }
 
         public bool Leveling(HediffDef hediff)
@@ -52,9 +50,7 @@ namespace SelfInstallingProsthetics
         {
             if (recipe.appliedOnFixedBodyParts.NullOrEmpty())
                 return true;
-            if (excludedRecipeWorkers.NullOrEmpty())
-                return false;
-            return excludedRecipeWorkers.Contains(recipe.workerClass.Namespace + "." + recipe.workerClass.Name);
+            return !excludedRecipeWorkers.NullOrEmpty() && excludedRecipeWorkers.Contains(recipe.workerClass.Namespace + "." + recipe.workerClass.Name);
         }
     }
 }
